@@ -19,3 +19,21 @@ def get_all_users(request):
     users = Users.objects.all()
     serializer = UsersSerializer(users, many=True)
     return Response(serializer.data)
+
+
+# update
+@api_view(["POST"])
+def update_user(request, pk):
+    instance = Users.objects.get(pk=pk)
+    serializer = UsersSerializer(instance=instance, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+
+
+# DELETE
+@api_view(["DELETE"])
+def delete_user(request, pk):
+    instance = Users.objects.get(pk=pk)
+    instance.delete()
+    return Response("users deleted")
