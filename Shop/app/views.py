@@ -31,9 +31,17 @@ def update_user(request, pk):
         return Response(serializer.data)
 
 
-# DELETE
+# DELETE_ALL_USERS
 @api_view(["DELETE"])
-def delete_user(request, pk):
+def delete_all_user(request):
+    instance = Users.objects.all()
+    instance.delete()
+    return Response("All_users deleted")
+
+
+# DELETE_BY_ID
+@api_view(["DELETE"])
+def delete_user_id(request, pk):
     instance = Users.objects.get(pk=pk)
     instance.delete()
     return Response("users deleted")
