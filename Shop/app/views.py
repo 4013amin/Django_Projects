@@ -21,6 +21,14 @@ def get_all_users(request):
     return Response(serializer.data)
 
 
+# get_by_id
+@api_view(["GET"])
+def get_user_by_id(request, pk):
+    users = Users.objects.get(id=pk)
+    serializer = UsersSerializer(users, many=False)
+    return Response(serializer.data)
+
+
 # update
 @api_view(["POST"])
 def update_user(request, pk):
