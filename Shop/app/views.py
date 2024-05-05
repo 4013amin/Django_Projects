@@ -14,6 +14,22 @@ def create_user(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# @api_view("POST")
+# def create_users_new(request):
+#     serializer = UsersSerializer(data=request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response(serializer.data, status=status.HTTP_201_CREATED)
+#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# @api_view("GET")
+# def get_data(request):
+#     get_users = Users.objects.all()
+#     serializer = UsersSerializer(get_users, many=True)
+#     return Response(serializer.data)
+
+
 @api_view(["GET"])
 def get_all_users(request):
     users = Users.objects.all()
