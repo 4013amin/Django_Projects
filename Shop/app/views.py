@@ -1,8 +1,8 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import UsersSerializer
-from .models import Users
+from .serializers import UsersSerializer, user_testSerializer
+from .models import Users, user_test
 
 
 @api_view(['POST'])
@@ -12,6 +12,15 @@ def create_user(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Testi
+@api_view(["POST"])
+def send_request(request):
+    number1 = request.data.get('number1', 0)
+    number2 = request.data.get('number2', 0)
+    result = number1 + number2
+    return Response({'result': result}, status=status.HTTP_200_OK)
 
 
 # @api_view("POST")

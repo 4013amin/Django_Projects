@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import create_user, get_all_users, update_user, delete_user_id, delete_all_user, get_user_by_id
+from .views import create_user, get_all_users, update_user, delete_user_id, delete_all_user, get_user_by_id, \
+    send_request
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -9,7 +10,8 @@ urlpatterns = [
     path('update_user/<pk>', update_user),
     path('delete_all_user', delete_all_user),
     path('delete_user/<pk>', delete_user_id),
-    path('get_user_by_id/<pk>', get_user_by_id)
+    path('get_user_by_id/<pk>', get_user_by_id),
+    path('send_request', send_request),
 ]
 
 if settings.DEBUG:
