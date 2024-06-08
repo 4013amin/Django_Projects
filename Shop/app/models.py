@@ -21,3 +21,13 @@ class user_test(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Login_users(models.Model):
+    name = models.CharField(max_length=30)
+    username = models.CharField(max_length=30, primary_key=True, null=True)
+    password = models.CharField(max_length=30)
+    password2 = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
