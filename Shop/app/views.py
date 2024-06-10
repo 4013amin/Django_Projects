@@ -85,27 +85,22 @@ def delete_user_id(request, pk):
 
 # form_users
 def register_users(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        name = request.POST['name']
-        password = request.POST['password']
-        password2 = request.POST['password2']
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        name = request.POST.get('name')
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
 
-        if password == password2:
-            if Login_users.objects.filter(username=username).exists():
-                return Response("User already exists")
-            elif Login_users.objects.filter(password=password).exists():
-                return Response("User already exists")
+        register = Login_users(username, name, password, password2)
+        if register.is_valid():
+            register.save()
 
-            else:
-                try:
-                    login = Login_users.objects.create(username=username, name=name, password=password)
-                    login.save()
-                    messages.success(request, "Registration successful!")
-                    return redirect('home')
-                except ValidationError as e:
-                    messages.error(request, e.message)
-                else:
-                    messages.error(request, "Passwords do not match")
+            context = {
+                'response': "عملیات با موفقیت ذخیره شد"
+            }
 
-                return render(request, 'register.html')
+            return render(request, 'home.html', context)
+        else:
+            return render(request, 'home.html', {'error': register.errors})
+
+
