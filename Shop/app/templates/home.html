@@ -3,20 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        form input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        form button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #218838;
+        }
+
+        .card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .card h2 {
+            margin: 10px 0 5px;
+        }
+
+        .card p {
+            color: #666;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .card-container .card {
+            flex: 1 1 calc(33.333% - 20px);
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 <body>
-<form action="#" method="GET">
-    {{ search.as_p }}
-    <button type="submit" class="btn btn-success">جستجو کنید</button>
-</form>
+<div class="container">
+    <form action="#" method="GET">
+        {{ search.as_p }}
+        <button type="submit" class="btn btn-success">جستجو کنید</button>
+    </form>
 
-{% for user in userList %}
-<div>
-    <img src="{{ user.image.url }}" alt="">
-    <h2>{{ user.name }}</h2>
-    <h2>{{ user.lastname }}</h2>
-    <h2>{{ user.des }}</h2>
+    <div class="card-container">
+        {% for user in userList %}
+        <div class="card">
+            <img src="{{ user.image.url }}" alt="{{ user.name }}">
+            <h2>{{ user.name }} {{ user.lastname }}</h2>
+            <p>{{ user.des }}</p>
+        </div>
+        {% endfor %}
+    </div>
 </div>
-{% endfor %}
 </body>
 </html>
