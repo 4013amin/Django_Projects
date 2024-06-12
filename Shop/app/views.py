@@ -104,3 +104,5 @@ def register_users(request):
             return render(request, 'home.html', {'error': register.errors})
 
 
+def login(request):
+    if request.method == 'POST':
