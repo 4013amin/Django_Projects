@@ -6,6 +6,7 @@ from .serializers import UsersSerializer, user_testSerializer
 from .models import Users, user_test, Login_users
 from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
+from .Forms import SearchForm
 
 
 @api_view(['POST'])
@@ -102,3 +103,15 @@ def register_users(request):
             return render(request, 'home.html', context)
         else:
             return render(request, 'home.html', {'error': register.errors})
+
+
+def Search(request):
+    search = SearchForm(request.GET)
+
+    if search.is_valid():
+        search_text = search.cleaned_data["textFiled"]
+
+    context = {
+        "search": search
+    }
+    return render(request, 'home.html', context)

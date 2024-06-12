@@ -1,17 +1,17 @@
 from django.urls import path
-from .views import create_user, get_all_users, update_user, delete_user_id, delete_all_user, get_user_by_id, \
-    send_request
+from .views import Search
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('create_user', create_user),
-    path('get_all_users', get_all_users),
-    path('update_user/<pk>', update_user),
-    path('delete_all_user', delete_all_user),
-    path('delete_user/<pk>', delete_user_id),
-    path('get_user_by_id/<pk>', get_user_by_id),
-    path('send_request', send_request),
+    path('', Search, name='index'),
+    # path('create_user', views.create_user),
+    # path('get_all_users', views.get_all_users),
+    # path('update_user/<pk>', views.update_user),
+    # path('delete_all_user', views.delete_all_user),
+    # path('delete_user/<pk>', views.delete_user_id),
+    # path('get_user_by_id/<pk>', views.get_user_by_id),
+    # path('send_request', views.send_request),
 ]
 
 if settings.DEBUG:
