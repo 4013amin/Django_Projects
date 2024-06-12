@@ -5,13 +5,18 @@
     <title>Register</title>
 </head>
 <body>
-
-
 <form action="#" method="GET">
-    {{ search }}
+    {{ search.as_p }}
     <button type="submit" class="btn btn-success">جستجو کنید</button>
 </form>
 
-
+{% for user in userList %}
+<div>
+    <img src="{{ user.image.url }}" alt="">
+    <h2>{{ user.name }}</h2>
+    <h2>{{ user.lastname }}</h2>
+    <h2>{{ user.des }}</h2>
+</div>
+{% endfor %}
 </body>
 </html>

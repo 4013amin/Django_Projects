@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import UsersSerializer, user_testSerializer
-from .models import Users, user_test, Login_users
+from .models import Users, user_test, Login_users, data
 from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
 from .Forms import SearchForm
@@ -107,11 +107,14 @@ def register_users(request):
 
 def Search(request):
     search = SearchForm(request.GET)
-
     if search.is_valid():
         search_text = search.cleaned_data["textFiled"]
+        usersList = data.objects.filter(name__contains=search_text)
+    else:
+        usersList = data.objects.all()
 
     context = {
-        "search": search
+        "search": search,
+        "userList": usersList
     }
     return render(request, 'home.html', context)

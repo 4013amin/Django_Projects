@@ -31,3 +31,14 @@ class Login_users(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class data(models.Model):
+    image = models.ImageField(upload_to='images/%Y/%m/%d/')
+    name = models.CharField(max_length=30)
+    lastname = models.CharField(max_length=30)
+    phone = models.CharField(max_length=30)
+    des = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
