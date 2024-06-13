@@ -118,3 +118,12 @@ def Search(request):
         "userList": usersList
     }
     return render(request, 'home.html', context)
+
+
+def get_data_by_id(request, pk):
+    post_id = data.objects.get(id=pk)
+    context = {
+        "post": post_id
+    }
+
+    return render(request, 'detales.html', context)

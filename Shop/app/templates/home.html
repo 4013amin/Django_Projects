@@ -50,6 +50,8 @@
             padding: 15px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s;
+            text-decoration: none;
+            color: inherit;
         }
 
         .card:hover {
@@ -91,11 +93,11 @@
 
     <div class="card-container">
         {% for user in userList %}
-        <div class="card">
+        <a href="{%  url 'data_id'  user.id%}" class="card">
             <img src="{{ user.image.url }}" alt="{{ user.name }}">
             <h2>{{ user.name }} {{ user.lastname }}</h2>
             <p>{{ user.des }}</p>
-        </div>
+        </a>
         {% endfor %}
     </div>
 </div>
