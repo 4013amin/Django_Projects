@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class AndroidAppConfig(AppConfig):
+class TamrinSearchConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'Android_app'
+    name = 'Tamrin_Search'

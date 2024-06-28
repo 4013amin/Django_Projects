@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'app',
     'examp',
-    'Android_app',
+    'Tamrin_Search',
 ]
 
 MIDDLEWARE = [

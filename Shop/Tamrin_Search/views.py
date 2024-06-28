@@ -4,8 +4,7 @@ from . import models
 
 
 # Create your views here.
-
-def index(request):
-    questions = models.Question.objects.all()
-    context = {'questions': questions}
+def Home_Data(request):
+    data = models.Data.objects.all()
+    context = {'data': data}
     return render(request, 'index_data.html', context)
