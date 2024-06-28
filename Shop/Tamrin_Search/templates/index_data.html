@@ -12,10 +12,15 @@
 <body class="bg-light">
 <div class="container mt-5">
     <div class="row">
+        <form action="#" method="GET">
+            {{ search }}
+            <button type="submit">تایید </button>
+        </form>
         {% for datas in data %}
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
                 <div class="card-body">
+
                     <img src="{{ datas.file.url }}" class="card-img-top" alt="{{ datas.title }}">
                     <h2 class="card-title">{{ datas.username }}</h2>
                     <h4 class="card-title">{{ datas.title }}</h4>
