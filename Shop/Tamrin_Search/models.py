@@ -6,7 +6,7 @@ class Data(models.Model):
     username = models.CharField(max_length=30)
     title = models.CharField(max_length=30)
     Date = models.DateField()
-    file = models.FileField(upload_to="data/")
+    image = models.ImageField(upload_to="image/")
 
     def __str__(self):
         return self.title
