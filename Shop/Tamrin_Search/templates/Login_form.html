@@ -1,0 +1,6 @@
+<form action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="نام کاربری">
+    <input type="password" name="password" placeholder="رمز عبور">
+    <input type="submit" name="submit" value="ورود">
+</form>

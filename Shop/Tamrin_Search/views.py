@@ -1,4 +1,7 @@
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from rest_framework import reverse
 
 from . import models
 from .forms import Search_form
@@ -20,3 +23,23 @@ def Home_Data(request):
 
     context = {'data': data_search, 'search': search, 'message': message}
     return render(request, 'index_data.html', context)
+
+
+def login_view(request):
+
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return render(request, "Login_form.html")
+        else:
+            context = {
+                "username": username,
+                "message": "نام کاربری یا رمز عبور اشتباه است."
+            }
+            return render(request, "Login_form.html", context)
+    else:
+        return render(request, "Login_form.html")

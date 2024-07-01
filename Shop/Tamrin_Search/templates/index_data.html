@@ -23,15 +23,27 @@
             <h3>{{ message }}</h3>
         </div>
         {% endif %}
+
+        {% if user.is_authenticated %}
+        <a href="">خروج</a>
+        {% else %}
+        <a href="{% url 'login' %}">ورود</a>
+        {% endif %}
+
+
         {% for datas in data %}
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
+
+                {% if user.is_authenticated %}
+
                 <div class="card-body">
                     <img src="{{ datas.image.url }}" alt="{{ datas.title }}">
                     <h2 class="card-title">{{ datas.username }}</h2>
                     <h4 class="card-title">{{ datas.title }}</h4>
-                    <p>{{ datas.image.url }}</p> <!-- نمایش URL تصویر -->
+                    <img src="{{ datas.image.url }}">
                 </div>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
