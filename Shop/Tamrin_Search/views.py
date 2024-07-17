@@ -26,7 +26,6 @@ def Home_Data(request):
 
 
 def login_view(request):
-
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -43,3 +42,9 @@ def login_view(request):
             return render(request, "Login_form.html", context)
     else:
         return render(request, "Login_form.html")
+
+
+def getData(request):
+    users = models.Data.objects.all()
+    context = {'users': users}
+    return render(request, "Data_form.html", context)
