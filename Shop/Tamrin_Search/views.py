@@ -45,6 +45,12 @@ def login_view(request):
 
 
 def getData(request):
-    users = models.Data.objects.all()
-    context = {'users': users}
+    search = Search_form(request.GET)
+    if search.is_valid():
+        search_results = search.cleaned_data["text_filed"]
+        data = models.Data.objects.filter(name__icontains=search_results)
+    else:
+        data = models.Data.objects.all()
+
+    context = {'users': data}
     return render(request, "Data_form.html", context)
