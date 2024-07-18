@@ -4,6 +4,6 @@ from . import views
 from . import models
 
 urlpatterns = [
-    path('', views.Home_Data, name='index'),
+    path('', views.EditFormView, name='index'),
     path('login/', views.login_view, name='login'),
 ]

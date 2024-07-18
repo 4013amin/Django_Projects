@@ -4,7 +4,7 @@ from django.shortcuts import render
 from rest_framework import reverse
 
 from . import models
-from .forms import Search_form
+from .forms import Search_form, FormEdit
 
 
 def Home_Data(request):
@@ -43,13 +43,20 @@ def login_view(request):
     else:
         return render(request, "Login_form.html")
 
-# def getData(request):
-#     search = Search_form(request.GET)
-#     if search.is_valid():
-#         search_results = search.cleaned_data["text_filed"]
-#         data = models.Data.objects.filter(name__icontains=search_results)
-#     else:
-#         data = models.Data.objects.all()
-#
-#     context = {'users': data}
-#     return render(request, "Data_form.html", context)
+
+def EditFormView(request):
+    data = models.Data.objects.all()
+    if request.method == "POST":
+        data_edit = FormEdit(request.POST, request.files, instance=data)
+        if data_edit.is_valid():
+            data_edit.save()
+            return render(request, "Edit_form.html")
+        else:
+            data_edit = FormEdit(instance=data)
+
+        context = {
+            "data": data_edit,
+            "Image_Editor": models.Data.image
+        }
+
+        return render(request, "Edit_form.html", context)
