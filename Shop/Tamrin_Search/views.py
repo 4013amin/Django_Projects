@@ -43,14 +43,13 @@ def login_view(request):
     else:
         return render(request, "Login_form.html")
 
-
-def getData(request):
-    search = Search_form(request.GET)
-    if search.is_valid():
-        search_results = search.cleaned_data["text_filed"]
-        data = models.Data.objects.filter(name__icontains=search_results)
-    else:
-        data = models.Data.objects.all()
-
-    context = {'users': data}
-    return render(request, "Data_form.html", context)
+# def getData(request):
+#     search = Search_form(request.GET)
+#     if search.is_valid():
+#         search_results = search.cleaned_data["text_filed"]
+#         data = models.Data.objects.filter(name__icontains=search_results)
+#     else:
+#         data = models.Data.objects.all()
+#
+#     context = {'users': data}
+#     return render(request, "Data_form.html", context)
