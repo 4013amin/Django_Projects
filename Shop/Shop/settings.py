@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'app',
     'examp',
     'Tamrin_Search',
+    'Tamrin',
 ]
 
 MIDDLEWARE = [
