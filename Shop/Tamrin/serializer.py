@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from rest_framework.authtoken.admin import User
+from .models import Data
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = Data
         fields = '__all__'
