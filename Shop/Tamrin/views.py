@@ -10,9 +10,9 @@ from .serializer import UserSerializer
 @api_view(["POST"])
 def sendRequest(request):
     if request.method == "POST":
-        user = UserSerializer(data=request.data)
-        if user.is_valid():
-            user.save()
+        serializer = UserSerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
             return Response({"message": "User has been sent successfully"}, status=status.HTTP_201_CREATED)
         else:
-            return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
