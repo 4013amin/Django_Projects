@@ -10,3 +10,4 @@ class FormEdit(forms.ModelForm):
     class Meta:
         model = Data
         fields = ['username', 'title', 'Date', 'image']
+
