@@ -1,8 +1,10 @@
+from django.contrib.auth import authenticate
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import usersSerializer
+from .models import users
+from .serializers import usersSerializer, LoginSerializer
 from django.core.files.storage import default_storage
 
 
@@ -16,3 +18,22 @@ def sendRegister(request):
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(["POST"])
+def sendLogin(request):
+    serializer = LoginSerializer(data=request.data)
+    if serializer.is_valid():
+        username = serializer.validated_data.get('username')
+        password = serializer.validated_data.get('password')
+
+        # Authenticate the user
+        user = users(username=username, password=password)
+
+        if user is not None and user.username == username and user.password == password:
+            # User is authenticated
+            return Response({"message": "Login Successful"}, status=status.HTTP_200_OK)
+        else:
+            # Authentication failed
+            return Response({"error": "Invalid Credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
