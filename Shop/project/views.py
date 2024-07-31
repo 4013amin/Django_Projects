@@ -26,10 +26,7 @@ def sendLogin(request):
         username = serializer.validated_data.get('username')
         password = serializer.validated_data.get('password')
 
-        # Authenticate the user
-        user = users(username=username, password=password)
-
-        if user is not None and user.username == username and user.password == password:
+        if users.objects.filter(username=username, password=password):
             # User is authenticated
             return Response({"message": "Login Successful"}, status=status.HTTP_200_OK)
         else:
@@ -37,3 +34,4 @@ def sendLogin(request):
             return Response({"error": "Invalid Credentials"}, status=status.HTTP_401_UNAUTHORIZED)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
