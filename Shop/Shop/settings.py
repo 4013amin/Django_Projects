@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-78y0a@umupslvph7%ye_z=m9g=0axo9xu=vug)kk@+1pk+^))2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.211.101"]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Tamrin_Search',
     'Tamrin',
     'project',
+    'Amin',
 ]
 
 MIDDLEWARE = [
@@ -116,7 +117,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
