@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'examp',
     'Tamrin_Search',
     'Tamrin',
-    'project',
+    'newProject',
     'Amin',
 ]
 
