@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'examp',
     'Tamrin_Search',
     'Tamrin',
-    'newProject',
     'Amin',
+    'newProject'
 ]
 
 MIDDLEWARE = [
