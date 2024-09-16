@@ -8,27 +8,6 @@ from .serializer import NewDataSerializer
 
 
 # Create your views here.
-
-@api_view(["GET"])
-def getNewData(request):
-    data = newData.get.objects.all()
-    serializer = NewDataSerializer(data, many=True)
-    return Response(serializer.data)
-
-
-@api_view(["POST"])
-def sendNewData(request):
-    serializer = NewDataSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-# ......................................................................
-
 @api_view(["POST"])
 def sendNewData(request):
     serializer = NewDataSerializer(data=request.data)
