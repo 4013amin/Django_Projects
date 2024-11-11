@@ -1,4 +1,4 @@
-#!/home/delta/PycharmProjects/Shop_project_jango/Shop/myenv/bin/python3
+#!/home/delta/PycharmProjects/Shop_project_jango/Shop/myenv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
