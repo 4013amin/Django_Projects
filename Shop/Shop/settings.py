@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'Tamrin_Search',
     'Tamrin',
     'Amin',
-    'NewProjectForMe',
+    'NewProjectForme'
 ]
 
 MIDDLEWARE = [
