@@ -1,37 +1,37 @@
-from django.http import JsonResponse
-from django.shortcuts import render
-from .models import Users
+from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from .seializer import UserSerializer
+from .models import Users
+from .serializers import UserSerializer
+from django.contrib.auth import authenticate
+
+class AddUsersView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# Create your views here.
-
-def addUsers(request):
-    users = UserSerializer(request.data)
-    if users.is_valid():
-        user = users.save()
-        return Response(users, status=status.HTTP_201_CREATED)
-    else:
-        return Response(users.errors, status=status.HTTP_400_BAD_REQUEST)
+class GetUsersView(APIView):
+    def get(self, request):
+        users = Users.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-def getUsers(request):
-    users = Users.objects.all()
-    serializer = UserSerializer(users, many=True)
-    return Response(serializer.data)
+class LoginView(APIView):
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
 
-
-def login(request):
-    serializer = UserSerializer(request.user)
-    if serializer.is_valid():
-        username = serializer.data.get('username')
-        password = serializer.data.get('password')
-
-        users = Users.objects.filter(username=username, password=password)
-        if users is None:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        else:
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            serializer = UserSerializer(user)
             return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(
+                {"error": "Invalid username or password"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
