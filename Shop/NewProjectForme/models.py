@@ -2,7 +2,7 @@ from django.db import models
 
 
 # Create your models here.
-class Users(models.Model):
+class users(models.Model):
     username = models.CharField(max_length=30)
     image = models.ImageField(upload_to='images/')
     password = models.CharField(max_length=30)
@@ -17,7 +17,7 @@ class Products(models.Model):
     price = models.CharField(max_length=30)
     image = models.ImageField(upload_to='images/')
     description = models.CharField(max_length=300)
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    user = models.ForeignKey(users, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     category = models.CharField(max_length=30)
     quantity = models.IntegerField()

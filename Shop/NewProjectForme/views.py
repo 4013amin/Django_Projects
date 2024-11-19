@@ -1,8 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from .models import Users
-from .serializers import UserSerializer
+from .models import users
+from .seializer import UserSerializer
 from django.contrib.auth import authenticate
 
 class AddUsersView(APIView):
@@ -16,7 +16,7 @@ class AddUsersView(APIView):
 
 class GetUsersView(APIView):
     def get(self, request):
-        users = Users.objects.all()
+        users = users.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
