@@ -36,6 +36,33 @@ class LoginView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
+
+class DeleteView(APIView):
+    def delete(self, request):
+        user_id = request.data.get('id')
+        
+        if not user_id:
+            return Response(
+                {"error": "ID is required to delete a user."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            user = users.objects.get(id=user_id)
+            
+            user.delete()
+            
+            return Response(
+                {"message": "User deleted successfully."},
+                status=status.HTTP_204_NO_CONTENT
+            )
+        except users.DoesNotExist:
+            return Response(
+                {"error": "User not found."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+
 class save(APIView):
     def save(self,request):
         serializer = UserSerializer(data=request.data)
