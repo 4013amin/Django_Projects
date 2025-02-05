@@ -58,5 +58,12 @@ def contact(request):
     return render(request, 'contact.html')
 
 
-# def venue_view(request):
-#
+def venue_view(request):
+    if authenticate(request):
+        venues = models.concert.objects.all()
+        context = {
+            'venues': venues,
+        }
+        return render(request, 'venue.html', context)
+    else:
+        return render(request, 'login.html')

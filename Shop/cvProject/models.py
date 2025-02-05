@@ -3,6 +3,7 @@ from django.db import models
 
 # Create your models here.
 class concert(models.Model):
+    image = models.ImageField(upload_to='cvProject/images/', null=True)
     title = models.CharField(max_length=100)
     description = models.TextField()
     price = models.FloatField()
