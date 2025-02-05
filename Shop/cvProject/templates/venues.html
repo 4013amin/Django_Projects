@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">فیلترها</h5>
+                <!-- فیلترهای جستجو -->
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="row">
+            {% for venue in venues %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <img src="{{ venue.image.url }}" class="card-img-top" alt="{{ venue.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ venue.name }}</h5>
+                        <p class="card-text">{{ venue.description|truncatechars:100 }}</p>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-geo-alt"></i> {{ venue.location }}</li>
+                            <li><i class="bi bi-people"></i> ظرفیت: {{ venue.capacity }}</li>
+                        </ul>
+                        <a href="{% url 'venue_detail' venue.id %}" class="btn btn-primary">جزئیات بیشتر</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

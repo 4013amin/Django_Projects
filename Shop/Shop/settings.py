@@ -37,12 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'app',
-    'examp',
     'Tamrin_Search',
     'Tamrin',
     'Amin',
     'NewProjectForme',
-    'QRCode'
+    'QRCode',
+    'cvProject'
 ]
 
 MIDDLEWARE = [
