@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from django.contrib.auth.models import User
@@ -22,28 +23,21 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
 
             if user is not None:
+                user.is_superuser = False
+                user.is_staff = False
+                user.save()
+
                 login(request, user)
-                if request.POST.get('next'):
-                    return redirect(request.POST.get('next'))
-                return redirect(settings.LOGIN_REDIRECT_URL)
+
+                if request.GET.get('next'):
+                    return HttpResponseRedirect(request.GET.get('next'))
+                return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
             else:
-                if User.objects.filter(username=username).exists():
-                    context = {
-                        'username': username,
-                        'error': "نام کاربری یا رمز عبور اشتباه است!"
-                    }
-                else:
-                    user = User.objects.create_user(username=username, password=password)
-                    user.is_superuser = False
-                    user.is_staff = False
-                    user.save()
-
-                    login(request, user)
-                    return render(request, 'index.html')
-
+                context = {
+                    'username': username,
+                    'error': "نام کاربری یا رمز عبور اشتباه است!"
+                }
                 return render(request, 'login.html', context)
-
-        return render(request, 'login.html')
 
     return render(request, 'login.html')
 
@@ -66,6 +60,14 @@ def contact(request):
 def venue_view(request):
     venues = models.Concert.objects.all()
     return render(request, 'venues.html', {'venues': venues})
+
+
+def venue_Index_view(request):
+    venues = models.Concert.objects.all()[:5]
+    context = {
+        'venues': venues
+    }
+    return render(request, 'index.html', context)
 
 
 @login_required
