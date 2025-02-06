@@ -8,6 +8,6 @@ class UsersAdmin(admin.ModelAdmin):
     list_display = ('id', 'username', 'password')
 
 
-@admin.register(models.concert)
+@admin.register(models.Concert)
 class ConcertAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'price')

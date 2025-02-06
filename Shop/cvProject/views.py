@@ -1,5 +1,7 @@
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from django.contrib.auth.models import User
 from .forms import loginForm
@@ -21,7 +23,9 @@ def login_view(request):
 
             if user is not None:
                 login(request, user)
-                return render(request, 'index.html')
+                if request.POST.get('next'):
+                    return redirect(request.POST.get('next'))
+                return redirect(settings.LOGIN_REDIRECT_URL)
             else:
                 if User.objects.filter(username=username).exists():
                     context = {
@@ -58,12 +62,13 @@ def contact(request):
     return render(request, 'contact.html')
 
 
+@login_required
 def venue_view(request):
-    if authenticate(request):
-        venues = models.concert.objects.all()
-        context = {
-            'venues': venues,
-        }
-        return render(request, 'venue.html', context)
-    else:
-        return render(request, 'login.html')
+    venues = models.Concert.objects.all()
+    return render(request, 'venues.html', {'venues': venues})
+
+
+@login_required
+def venue_detail(request, id):
+    venue = get_object_or_404(models.Concert, id=id)
+    return render(request, 'venue_detail.html', {'venue': venue})

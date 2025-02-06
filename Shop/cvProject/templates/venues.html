@@ -18,12 +18,15 @@
                 <div class="card h-100">
                     <img src="{{ venue.image.url }}" class="card-img-top" alt="{{ venue.name }}">
                     <div class="card-body">
-                        <h5 class="card-title">{{ venue.name }}</h5>
+                        <h5 class="card-title">{{ venue.title }}</h5>  <!-- تغییر از name به title -->
                         <p class="card-text">{{ venue.description|truncatechars:100 }}</p>
                         <ul class="list-unstyled">
-                            <li><i class="bi bi-geo-alt"></i> {{ venue.location }}</li>
-                            <li><i class="bi bi-people"></i> ظرفیت: {{ venue.capacity }}</li>
+                            <li><i class="bi bi-geo-alt"></i> زمان: {{ venue.time }}</li>
+                            <!-- تغییر location به time -->
+                            <li><i class="bi bi-cash"></i> قیمت: {{ venue.price }}</li>
+                            <!-- تغییر capacity به price -->
                         </ul>
+
                         <a href="{% url 'venue_detail' venue.id %}" class="btn btn-primary">جزئیات بیشتر</a>
                     </div>
                 </div>
