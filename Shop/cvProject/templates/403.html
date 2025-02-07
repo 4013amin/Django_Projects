@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="text-center bg-white p-10 rounded-2xl shadow-lg">
+        <h1 class="text-6xl font-extrabold text-red-600">403</h1>
+        <h2 class="text-2xl font-semibold text-gray-700 mt-4">دسترسی غیرمجاز!</h2>
+        <p class="text-gray-500 mt-2">متاسفانه شما اجازه ورود به این بخش را ندارید. لطفاً با مدیریت تماس بگیرید.</p>
+
+        <div class="mt-6">
+            <a href="/" class="bg-blue-500 text-white px-6 py-2 rounded-lg text-lg hover:bg-blue-600 transition">بازگشت به صفحه اصلی</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,4 +1,5 @@
 from django import forms
+from . import models
 
 
 class loginForm(forms.Form):
@@ -17,3 +18,9 @@ class loginForm(forms.Form):
             'placeholder': 'رمزخود را وارد کنید ',
         })
     )
+
+
+class Edit_Form_venues(forms.ModelForm):
+    class Meta:
+        model = models.Concert
+        fields = ['title', 'description', 'price']

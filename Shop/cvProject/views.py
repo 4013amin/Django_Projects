@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from django.contrib.auth.models import User
-from .forms import loginForm
+from .forms import loginForm, Edit_Form_venues
 
 
 # Create your views here.
@@ -90,6 +90,24 @@ def venue_view(request):
         venues = venues.filter(title__icontains=search)
 
     return render(request, 'venues.html', {'venues': venues})
+
+
+@login_required
+def venuesEdit_View(request, id):
+    venue = get_object_or_404(models.Concert, id=id)
+
+    if request.user.username != "Amin" or not request.user.is_superuser:
+        return render(request, '403.html', status=403)
+
+    if request.method == "POST":
+        editForm = Edit_Form_venues(request.POST, instance=venue)
+        if editForm.is_valid():
+            editForm.save()
+            return render(request, 'venues.html', {'editForm': editForm})
+    else:
+        editForm = Edit_Form_venues(instance=venue)
+
+    return render(request, 'venuesEdit.html', {'editForm': editForm})
 
 
 def venue_Index_view(request):
