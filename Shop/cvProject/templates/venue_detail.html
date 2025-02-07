@@ -2,18 +2,55 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="card">
-        <img src="{{ venue.image.url }}" class="card-img-top" alt="{{ venue.title }}">
+    <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+        <img src="{{ venue.image.url }}" class="card-img-top venue-img" alt="{{ venue.title }}">
         <div class="card-body">
-            <h5 class="card-title">{{ venue.title }}</h5>
-            <p class="card-text">{{ venue.description }}</p>
-            <ul class="list-unstyled">
-                <li><strong>زمان:</strong> {{ venue.time }}</li>
-                <li><strong>قیمت:</strong> {{ venue.price }} تومان</li>
-                <li><strong>ظرفیت:</strong> {{ venue.capacity|default:"نامشخص" }} نفر</li>
+            <h5 class="card-title fw-bold text-dark">{{ venue.title }}</h5>
+            <!-- نمایش توضیحات کامل -->
+            <p class="card-text text-muted venue-description">{{ venue.description }}</p>
+            <ul class="list-unstyled mt-3">
+                <li><i class="bi bi-clock text-primary"></i> <strong>زمان:</strong> {{ venue.time }}</li>
+                <li><i class="bi bi-cash-coin text-success"></i> <strong>قیمت:</strong> {{ venue.price }} تومان</li>
+                <li><i class="bi bi-people text-info"></i> <strong>ظرفیت:</strong> {{ venue.capacity|default:"نامشخص" }} نفر</li>
             </ul>
-            <a href="#" class="btn btn-success">رزرو کنید</a>
+            <a href="#" class="btn btn-primary w-100 rounded-pill py-2 mt-3">
+                <i class="bi bi-calendar-check"></i> رزرو کنید
+            </a>
         </div>
     </div>
 </div>
+
+<!-- استایل سفارشی -->
+<style>
+    .venue-img {
+        height: 300px;
+        object-fit: cover;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    /* استایل برای نمایش کامل توضیحات */
+    .venue-description {
+        white-space: normal; /* تغییر به normal برای نمایش چند خط */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        max-width: 100%;
+        max-height: 200px; /* حداکثر ارتفاع */
+        line-height: 1.5;
+        margin-bottom: 1rem;
+        padding-right: 15px; /* فضای مناسب برای متن */
+        overflow-y: auto; /* امکان اسکرول در صورت طولانی بودن متن */
+    }
+
+    .btn-primary {
+        font-size: 1.1rem;
+        font-weight: bold;
+        transition: background 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background: #0056b3;
+    }
+</style>
 {% endblock %}

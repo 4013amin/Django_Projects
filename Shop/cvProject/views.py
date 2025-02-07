@@ -66,9 +66,29 @@ def contact(request):
     return render(request, 'contact.html')
 
 
+from django.shortcuts import render
+from . import models
+
+
 @login_required
 def venue_view(request):
     venues = models.Concert.objects.all()
+
+    # اعمال فیلتر دسته‌بندی
+    category = request.GET.get('category')
+    if category:
+        venues = venues.filter(category_id=category)
+
+    # اعمال فیلتر قیمت
+    max_price = request.GET.get('max_price')
+    if max_price:
+        venues = venues.filter(price__lte=max_price)
+
+    # اعمال فیلتر جستجو
+    search = request.GET.get('search')
+    if search:
+        venues = venues.filter(title__icontains=search)
+
     return render(request, 'venues.html', {'venues': venues})
 
 

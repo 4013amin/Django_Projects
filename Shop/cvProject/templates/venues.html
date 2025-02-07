@@ -1,38 +1,95 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-3">
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">فیلترها</h5>
-                <!-- فیلترهای جستجو -->
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-9">
-        <div class="row">
-            {% for venue in venues %}
-            <div class="col-md-6 mb-4">
-                <div class="card h-100">
-                    <img src="{{ venue.image.url }}" class="card-img-top" alt="{{ venue.name }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ venue.title }}</h5>  <!-- تغییر از name به title -->
-                        <p class="card-text">{{ venue.description|truncatechars:100 }}</p>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-geo-alt"></i> زمان: {{ venue.time }}</li>
-                            <!-- تغییر location به time -->
-                            <li><i class="bi bi-cash"></i> قیمت: {{ venue.price }}</li>
-                            <!-- تغییر capacity به price -->
-                        </ul>
-
-                        <a href="{% url 'venue_detail' venue.id %}" class="btn btn-primary">جزئیات بیشتر</a>
-                    </div>
+<div class="container mt-4">
+    <div class="row">
+        <!-- بخش فیلترها -->
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body">
+                    <h5 class="fw-bold text-primary"><i class="bi bi-funnel"></i> فیلترها</h5>
+                    <hr>
+                    <form method="GET">
+                        <div class="mb-3">
+                            <label class="form-label">دسته‌بندی</label>
+                            <select class="form-select" name="category">
+                                <option value="">انتخاب کنید</option>
+                                <option value="1" {% if request.GET.category == "1" %}selected{% endif %}>گردشگری</option>
+                                <option value="2" {% if request.GET.category == "2" %}selected{% endif %}>رستوران</option>
+                                <option value="3" {% if request.GET.category == "3" %}selected{% endif %}>تفریحی</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">حداکثر قیمت</label>
+                            <input type="range" class="form-range" min="1000" max="50000" name="max_price"
+                                   value="{{ request.GET.max_price|default:'50000' }}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">جستجو</label>
+                            <input type="text" class="form-control" name="search" placeholder="جستجوی مکان‌ها"
+                                   value="{{ request.GET.search }}">
+                        </div>
+                        <button class="btn btn-primary w-100">اعمال فیلتر</button>
+                    </form>
                 </div>
             </div>
-            {% endfor %}
+        </div>
+
+        <!-- بخش نمایش مکان‌ها -->
+        <div class="col-md-9">
+            <div class="row">
+                {% for venue in venues %}
+                <div class="col-md-6 mb-4">
+                    <div class="card venue-card shadow-sm border-0 rounded-4">
+                        <img src="{{ venue.image.url }}" class="card-img-top venue-img" alt="{{ venue.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold text-dark">{{ venue.title }}</h5>
+                            <p class="card-text text-muted venue-description">{{ venue.description }}</p>
+                            <!-- توضیحات یک‌خطی -->
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-clock text-primary"></i> <strong>زمان:</strong> {{ venue.time }}</li>
+                                <li><i class="bi bi-cash-coin text-success"></i> <strong>قیمت:</strong> {{ venue.price }} تومان</li>
+                            </ul>
+                            <a href="{% url 'venue_detail' venue.id %}" class="btn btn-outline-primary w-100">جزئیات بیشتر</a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-center text-muted">هیچ مکانی یافت نشد.</p>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
+
+<!-- استایل سفارشی -->
+<style>
+    .venue-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .venue-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .venue-img {
+        height: 220px;
+        object-fit: cover;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .venue-description {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        max-width: 100%;
+    }
+
+    .btn-outline-primary {
+        border-radius: 50px;
+    }
+</style>
 {% endblock %}
