@@ -1,4 +1,6 @@
+from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 
 class Concert(models.Model):
@@ -16,9 +18,19 @@ class Concert(models.Model):
         return reverse('venue_detail', args=[str(self.id)])
 
 
-class users(models.Model):
-    username = models.CharField(max_length=100)
-    password = models.IntegerField()
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    credit = models.FloatField(default=0)
+
+    image = models.ImageField(upload_to='cvProject/images/', null=True, blank=True)
+    MAN = 1
+    WOMAN = 2
+
+    STATUS_CHOICES = (
+        (MAN, "مرد"),
+        (WOMAN, "خانم"),
+    )
+    gender = models.IntegerField(choices=STATUS_CHOICES, default=MAN)
 
     def __str__(self):
-        return self.username
+        return self.user.username
