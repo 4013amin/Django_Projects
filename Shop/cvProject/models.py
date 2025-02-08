@@ -4,12 +4,12 @@ from django.urls import reverse
 
 
 class Concert(models.Model):
-    image = models.ImageField(upload_to='cvProject/images/', null=True, blank=True)
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
     title = models.CharField(max_length=100)
     description = models.TextField()
     price = models.FloatField()
     time = models.TimeField()
-    capacity = models.PositiveIntegerField(null=True, blank=True)  # اضافه کردن ظرفیت
+    capacity = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.title

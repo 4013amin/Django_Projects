@@ -2,84 +2,40 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero-section position-relative overflow-hidden">
-    <div class="container py-7">
-        <div class="row justify-content-center text-center">
-            <div class="col-lg-8 col-md-10">
-                <h1 class="display-3 fw-bold mb-4 text-white animate__animated animate__fadeInDown">
-                    تجربه‌ی بی‌نظیر موسیقی زنده
-                </h1>
-                <p class="lead text-light mb-5 fs-5 opacity-75 animate__animated animate__fadeIn animate__delay-1s">
-                    رزرو آنلاین بهترین سالن‌های کنسرت در سراسر ایران با گارانتی بهترین قیمت
-                </p>
-                <a href="{% url 'venues' %}"
-                   class="btn btn-lg btn-danger px-5 py-3 rounded-pill shadow-lg animate__animated animate__fadeInUp animate__delay-1s">
-                    مشاهده سالن‌ها
-                    <i class="fas fa-arrow-left ms-2"></i>
-                </a>
-            </div>
-        </div>
+<section class="hero-section position-relative d-flex align-items-center text-center text-white">
+    <div class="container position-relative z-2">
+        <h1 class="display-2 fw-bold animate__animated animate__fadeInDown">
+            رزرو بهترین سالن‌های کنسرت
+        </h1>
+        <p class="lead opacity-75 animate__animated animate__fadeInUp animate__delay-1s">
+            سریع، آسان و با بهترین قیمت
+        </p>
+        <a href="{% url 'venues' %}"
+           class="btn btn-primary btn-lg mt-4 animate__animated animate__fadeInUp animate__delay-2s">
+            مشاهده سالن‌ها <i class="fas fa-arrow-left ms-2"></i>
+        </a>
     </div>
-
-    <!-- Background Overlay -->
-    <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
-
-    <!-- Animated Background -->
-    <div class="hero-background"
-         style="background-image: url('https://source.unsplash.com/random/1920x1080/?concert,stage');"></div>
+    <div class="hero-bg"></div>
 </section>
 
 <!-- Venues Grid -->
-<section class="py-7 bg-light">
+<section class="venues-section py-7">
     <div class="container">
         <div class="row g-4">
-            <!-- Venue Card 1 -->
             {% for venue in venues %}
             <div class="col-lg-4 col-md-6">
-                <div class="card venue-card h-100 border-0 shadow-lg hover-effect">
-                    <div class="card-img-top position-relative overflow-hidden">
-                        <img src="{{ venue.image_url|default:'https://source.unsplash.com/random/800x600/?concert-hall' }}"
-                             class="img-fluid"
-                             alt="{{ venue.name }}"
-                             loading="lazy">
-                        <div class="card-overlay"></div>
-                        <div class="position-absolute top-0 end-0 m-3">
-                            <span class="badge bg-danger bg-opacity-90 fs-6">ظرفیت {{ venue.capacity }} نفر</span>
-                        </div>
-                    </div>
-                    <div class="card-body p-4">
-                        <h3 class="h4 fw-bold mb-3">{{ venue.name }}</h3>
-                        <div class="venue-info mb-4">
-                            <div class="d-flex align-items-center mb-2">
-                                <i class="fas fa-map-marker-alt text-danger me-2"></i>
-                                <span>{{ venue.location }}</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-star text-warning me-2"></i>
-                                <span>امتیاز {{ venue.rating }} ({{ venue.reviews_count }} نظر)</span>
-                            </div>
-                        </div>
-                        <a href="{% url 'venue_detail' venue.id %}" class="btn btn-danger w-100 py-2 stretched-link">
-                            رزرو سریع
-                            <i class="fas fa-ticket-alt ms-2"></i>
-                        </a>
+                <div class="venue-card">
+                    <img src="{{ venue.image_url|default:'https://source.unsplash.com/random/800x600/?concert' }}"
+                         alt="{{ venue.name }}" class="venue-img">
+                    <div class="venue-info">
+                        <h3 class="venue-title">{{ venue.name }}</h3>
+                        <p class="venue-location"><i class="fas fa-map-marker-alt"></i> {{ venue.location }}</p>
+                        <p class="venue-rating"><i class="fas fa-star text-warning"></i> امتیاز {{ venue.rating }}</p>
+                        <a href="{% url 'venue_detail' venue.id %}" class="btn btn-danger">رزرو سریع</a>
                     </div>
                 </div>
             </div>
             {% endfor %}
-
-            <!-- Repeat for other venues -->
-            <!-- Add more venue cards here -->
-
-        </div>
-
-        <!-- View All Button -->
-        <div class="text-center mt-5">
-            <a href="{% url 'venues' %}"
-               class="btn btn-outline-danger btn-lg px-5 py-3 rounded-pill">
-                مشاهده تمامی سالن‌ها
-                <i class="fas fa-arrow-left ms-2"></i>
-            </a>
         </div>
     </div>
 </section>
@@ -87,56 +43,69 @@
 
 {% block extra_css %}
 <style>
-    /* Custom Styles */
     .hero-section {
-        height: 90vh;
-        min-height: 600px;
-        background: linear-gradient(45deg, #2c3e50, #3498db);
+        height: 85vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        background: linear-gradient(45deg, rgba(44, 62, 80, 0.7), rgba(52, 152, 219, 0.7));
     }
 
-    .hero-background {
+    .hero-bg {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
+        background-image: url('https://source.unsplash.com/random/1920x1080/?concert,stage');
         background-size: cover;
         background-position: center;
-        animation: zoom 30s infinite alternate;
         z-index: -1;
+        filter: blur(4px);
     }
 
-    .card-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(transparent 60%, rgba(0, 0, 0, 0.8));
+    .venues-section {
+        background: #f8f9fa;
+        padding: 80px 0;
     }
 
-    .hover-effect {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .venue-card {
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
     }
 
-    .hover-effect:hover {
+    .venue-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
     }
 
-    @keyframes zoom {
-        0% {
-            transform: scale(1);
-        }
-        100% {
-            transform: scale(1.1);
-        }
-    }
-
-    .venue-card img {
+    .venue-img {
+        width: 100%;
         height: 250px;
         object-fit: cover;
-        width: 100%;
+    }
+
+    .venue-info {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .venue-title {
+        font-size: 1.4rem;
+        font-weight: bold;
+    }
+
+    .venue-location, .venue-rating {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .btn-danger {
+        margin-top: 10px;
+        display: inline-block;
     }
 </style>
 {% endblock %}

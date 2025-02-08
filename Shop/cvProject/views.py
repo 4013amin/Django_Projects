@@ -66,10 +66,6 @@ def contact(request):
     return render(request, 'contact.html')
 
 
-from django.shortcuts import render
-from . import models
-
-
 @login_required
 def venue_view(request):
     venues = models.Concert.objects.all()
