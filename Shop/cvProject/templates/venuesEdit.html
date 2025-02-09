@@ -1,12 +1,65 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-body p-4">
+                    <h3 class="text-center fw-bold mb-4">ویرایش اطلاعات</h3>
 
-<form action="" method="POST">
-    {% csrf_token %}
-    {{ editForm }}
-    <button type="submit" class="btn btn-success">ذخیره</button>
-</form>
+                    <form action="" method="POST" class="needs-validation" novalidate>
+                        {% csrf_token %}
 
+                        {% for field in editForm %}
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger small">{{ field.errors|join:", " }}</div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
 
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">ذخیره تغییرات</button>
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-lg">لغو</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .card {
+        background: white;
+        border-radius: 10px;
+    }
+    .btn-success {
+        background: #28a745;
+        border: none;
+        transition: 0.3s;
+    }
+    .btn-success:hover {
+        background: #218838;
+    }
+    .btn-outline-secondary:hover {
+        background: #6c757d;
+        color: white;
+    }
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+</style>
 {% endblock %}
