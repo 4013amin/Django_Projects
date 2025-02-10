@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from django.contrib.auth.models import User
-from .forms import loginForm, Edit_Form_venues
+from .forms import loginForm, Edit_Form_venues, RegisterForm
 
 
 # Create your views here.
@@ -96,14 +96,53 @@ def venuesEdit_View(request, id):
         return render(request, '403.html', status=403)
 
     if request.method == "POST":
-        editForm = Edit_Form_venues(request.POST, instance=venue)
+        editForm = Edit_Form_venues(request.POST, request.FILES, instance=venue)
         if editForm.is_valid():
             editForm.save()
             return render(request, 'venues.html', {'editForm': editForm})
     else:
         editForm = Edit_Form_venues(instance=venue)
 
-    return render(request, 'venuesEdit.html', {'editForm': editForm})
+    context = {
+        'editForm': editForm,
+        'Image': models.Concert.image
+    }
+
+    return render(request, 'venuesEdit.html', context)
+
+
+from django.contrib.auth.models import User
+
+
+def register_view(request):
+    if request.method == "POST":
+        form = RegisterForm(request.POST, request.FILES)
+        if form.is_valid():
+            # بررسی تکراری بودن نام کاربری
+            username = form.cleaned_data.get('username')
+            if User.objects.filter(username=username).exists():
+                form.add_error('username', 'این نام کاربری قبلاً استفاده شده است.')
+            else:
+                user = models.User.objects.create_user(
+                    username=username,
+                    password=form.cleaned_data.get('password'),
+                    email=form.cleaned_data.get('email'),
+                )
+                user.save()
+                profile = models.Profile.objects.create(user=user,
+                                                        credit=form.cleaned_data.get('credit'),
+                                                        image=form.cleaned_data.get(
+                                                            'image'))  # تصویر و اعتبار ذخیره می‌شود.
+                profile.save()
+                return redirect('venues')
+    else:
+        form = RegisterForm()
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'register.html', context)
 
 
 def venue_Index_view(request):

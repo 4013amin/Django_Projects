@@ -23,4 +23,17 @@ class loginForm(forms.Form):
 class Edit_Form_venues(forms.ModelForm):
     class Meta:
         model = models.Concert
-        fields = ['title', 'description', 'price']
+        fields = ['title', 'description', 'price', 'image']
+
+
+# Register Form
+class RegisterForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=100)
+    last_name = forms.CharField(max_length=100)
+    username = forms.CharField(max_length=100)
+    password = forms.CharField(widget=forms.PasswordInput)
+    email = forms.EmailField(widget=forms.EmailInput)
+
+    class Meta:
+        model = models.Profile
+        fields = ['credit', 'image', 'gender']

@@ -6,12 +6,11 @@
         <div class="col-lg-6 col-md-8">
             <div class="card shadow-lg border-0 rounded-3">
                 <div class="card-body p-4">
-                    <h3 class="text-center fw-bold mb-4 text-primary">ویرایش اطلاعات</h3>
+                    <h3 class="text-center fw-bold mb-4 text-primary">ثبت‌نام</h3>
 
                     <form action="" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                         {% csrf_token %}
-
-                        {% for field in editForm %}
+                        {% for field in form %}
                         <div class="mb-3">
                             <label class="form-label fw-bold">{{ field.label }}</label>
                             {{ field }}
@@ -26,15 +25,14 @@
                                  style="max-width: 100%; height: auto;" alt="پیش‌نمایش تصویر">
                         </div>
                         {% endif %}
-
-
                         {% endfor %}
 
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg shadow">💾 ذخیره تغییرات</button>
+                            <button type="submit" class="btn btn-primary btn-lg shadow">📌 ثبت‌نام</button>
                             <a href="{% url 'home' %}" class="btn btn-outline-danger btn-lg shadow">❌ لغو</a>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
