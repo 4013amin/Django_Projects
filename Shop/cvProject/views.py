@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from django.contrib.auth.models import User
-from .forms import loginForm, Edit_Form_venues, RegisterForm
+from .forms import loginForm, Edit_Form_venues, RegisterForm, Form_Contact_Us
 
 
 # Create your views here.
@@ -143,6 +143,18 @@ def register_view(request):
     }
 
     return render(request, 'register.html', context)
+
+
+# Form_Contact_Us
+def contact_Us_view(request):
+    if request.method == "POST":
+        form = Form_Contact_Us(request.POST)
+        if form.is_valid():
+            form.save()
+        return render(request, 'contact_success.html')
+    else:
+        form = Form_Contact_Us()
+        return render(request, 'contact.html', {'form': form})
 
 
 def venue_Index_view(request):

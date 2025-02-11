@@ -37,3 +37,10 @@ class RegisterForm(forms.ModelForm):
     class Meta:
         model = models.Profile
         fields = ['credit', 'image', 'gender']
+
+
+# contact us
+class Form_Contact_Us(forms.ModelForm):
+    class Meta:
+        model = models.ContactUs
+        fields = '__all__'
