@@ -7,11 +7,11 @@
             <!-- تصویر پروفایل -->
             <div class="mb-3">
                 {% if profile.image %}
-                    <img src="{{ profile.image.url }}" class="rounded-circle border"
-                         style="width: 120px; height: 120px; object-fit: cover;">
+                <img src="{{ profile.image.url }}" class="rounded-circle border"
+                     style="width: 120px; height: 120px; object-fit: cover;">
                 {% else %}
-                    <img src="/media/default.png" class="rounded-circle border"
-                         style="width: 120px; height: 120px; object-fit: cover;">
+                <img src="/media/default.png" class="rounded-circle border"
+                     style="width: 120px; height: 120px; object-fit: cover;">
                 {% endif %}
             </div>
 
@@ -19,6 +19,11 @@
             <h4 class="fw-bold">{{ profile.user.get_full_name }}</h4>
             <p class="text-muted mb-2">{{ profile.get_gender_display }}</p>
             <p class="fw-semibold text-success">اعتبار: {{ profile.credit }}</p>
+
+            <button class="btn btn-primary rounded-pill px-4 py-2 shadow-sm">
+                <a href="{% url 'dashboardEdit' %}" class="text-white text-decoration-none">ویرایش</a>
+            </button>
+
 
         </div>
     </div>

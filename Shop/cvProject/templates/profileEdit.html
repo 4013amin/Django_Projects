@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4" style="max-width: 600px; margin: auto;">
+        <div class="card-body">
+            <h3 class="text-center mb-4">ویرایش پروفایل</h3>
+
+            <!-- نمایش عکس فعلی پروفایل -->
+            <div class="text-center mb-4">
+                {% if profile_image %}
+                <img src="{{ profile_image }}" class="rounded-circle border"
+                     style="width: 120px; height: 120px; object-fit: cover;">
+                {% else %}
+                <img src="/media/default.png" class="rounded-circle border"
+                     style="width: 120px; height: 120px; object-fit: cover;">
+                {% endif %}
+            </div>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- فیلدهای ProfileEditForm -->
+                <p>{{ formUser.first_name.label }}</p>
+                {{ formUser.first_name }}
+                <br><br>
+
+                <p>{{ formUser.last_name.label }}</p>
+                {{ formUser.last_name }}
+                <br><br>
+
+                <p>{{ formUser.email.label }}</p>
+                {{ formUser.email }}
+                <br><br>
+
+                <!-- فیلدهای Edit_Dashboard -->
+                <p>{{ form.image.label }}</p>
+                {{ form.image }}
+                <br><br>
+
+                <p>{{ form.credit.label }}</p>
+                {{ form.credit }}
+                <br><br>
+
+                <p>{{ form.gender.label }}</p>
+                {{ form.gender }}
+                <br><br>
+
+                <button type="submit" class="btn btn-success w-100 rounded-pill">ذخیره تغییرات</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

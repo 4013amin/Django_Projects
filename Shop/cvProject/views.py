@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from django.contrib.auth.models import User
-from .forms import loginForm, Edit_Form_venues, RegisterForm, Form_Contact_Us
+from .forms import loginForm, Edit_Form_venues, RegisterForm, Form_Contact_Us, Edit_Dashboard, ProfileEditForm
 
 
 # Create your views here.
@@ -60,6 +60,27 @@ def dashboard(request):
         'profile': profile,
     }
     return render(request, 'profile.html', context)
+
+
+def dashboard_Edit(request):
+    if request.method == "POST":
+        form = Edit_Dashboard(request.POST, request.FILES, instance=request.user.profile)
+        formUser = ProfileEditForm(request.POST, instance=request.user)
+        if form.is_valid() and formUser.is_valid():
+            form.save()
+            formUser.save()
+            return redirect('dashboard')
+    else:
+        form = Edit_Dashboard(instance=request.user.profile)
+        formUser = ProfileEditForm(instance=request.user)
+
+
+        context = {
+            'form': form,
+            'profile_image': request.user.profile.image.url,
+            'formUser': formUser,
+        }
+        return render(request, 'profileEdit.html', context)
 
 
 def contact(request):

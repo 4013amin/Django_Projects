@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.forms import UserChangeForm
+
 from . import models
 
 
@@ -44,3 +46,15 @@ class Form_Contact_Us(forms.ModelForm):
     class Meta:
         model = models.ContactUs
         fields = '__all__'
+
+
+# dashboard_Edit
+class Edit_Dashboard(forms.ModelForm):
+    class Meta:
+        model = models.Profile
+        fields = ['credit', 'image', 'gender']
+
+
+class ProfileEditForm(UserChangeForm):
+    class Meta(UserChangeForm.Meta):
+        fields = ['first_name', 'last_name', 'email']
