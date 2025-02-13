@@ -15,7 +15,7 @@
                     نفر
                 </li>
             </ul>
-            <a href="#" class="btn btn-primary w-100 rounded-pill py-2 mt-3">
+            <a href="{% url 'reserve_concert' venue.id %}" class="btn btn-primary w-100 rounded-pill py-2 mt-3">
                 <i class="bi bi-calendar-check"></i> رزرو کنید
             </a>
             <a href="{% url 'venuesEdit' venue.id %}" class="btn btn-primary w-100  rounded-pill py-2 mt-3">
@@ -24,6 +24,16 @@
         </div>
     </div>
 </div>
+
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} mt-3">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
 
 <!-- استایل سفارشی -->
 <style>

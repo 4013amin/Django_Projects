@@ -16,3 +16,8 @@ class ConcertAdmin(admin.ModelAdmin):
 @admin.register(models.ContactUs)
 class ContactUsAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'message')
+
+
+@admin.register(models.Booking)
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'concert')

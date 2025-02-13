@@ -5,6 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from . import models
+from django.contrib import messages
 from django.contrib.auth.models import User
 from .forms import loginForm, Edit_Form_venues, RegisterForm, Form_Contact_Us, Edit_Dashboard, ProfileEditForm
 
@@ -73,7 +74,6 @@ def dashboard_Edit(request):
     else:
         form = Edit_Dashboard(instance=request.user.profile)
         formUser = ProfileEditForm(instance=request.user)
-
 
         context = {
             'form': form,
@@ -190,3 +190,25 @@ def venue_Index_view(request):
 def venue_detail(request, id):
     venue = get_object_or_404(models.Concert, id=id)
     return render(request, 'venue_detail.html', {'venue': venue})
+
+
+# reserve
+def reserve_concert(request, id):
+    concerts = get_object_or_404(models.Concert, id=id)
+
+    if models.Booking.objects.filter(user=request.user, concert=concerts).exists():
+        messages.error(request, "شما قبلاً برای این کنسرت رزرو کرده‌اید.")
+        return redirect('venue_detail', id=concerts.id)
+
+    if concerts.capacity is not None and concerts.capacity <= 0:
+        messages.error(request, "ظرفیت این کنسرت تکمیل شده است.")
+        return redirect('venue_detail', id=concerts.id)
+    else:
+        models.Booking.objects.create(user=request.user, concert=concerts)
+
+        if concerts.capacity is not None:
+            concerts.capacity -= 1
+            concerts.save()
+
+        messages.success(request, "رزرو با موفقیت انجام شد.")
+        return redirect('venue_detail', id=concerts.id)
