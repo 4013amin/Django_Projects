@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'Amin',
     'NewProjectForme',
     'QRCode',
-    'cvProject'
+    'cvProject',
+    'Authentication'
 ]
 
 MIDDLEWARE = [

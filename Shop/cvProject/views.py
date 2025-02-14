@@ -132,8 +132,6 @@ def venuesEdit_View(request, id):
     return render(request, 'venuesEdit.html', context)
 
 
-from django.contrib.auth.models import User
-
 
 def register_view(request):
     if request.method == "POST":
