@@ -5,7 +5,7 @@ from . import models
 
 class RegisterSerializer(serializers.ModelSerializer):
     credit = serializers.IntegerField()
-    image = serializers.ImageField()
+    image = serializers.ImageField(required=True)
 
     class Meta:
         model = User
@@ -13,3 +13,5 @@ class RegisterSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {'write_only': True}
         }
+
+

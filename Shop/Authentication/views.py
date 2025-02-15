@@ -8,7 +8,7 @@ from .serializers import RegisterSerializer
 
 
 # Create your views here.
-@api_view(['POST'])
+@api_view(["POST"])
 def register(request):
     serializer = RegisterSerializer(data=request.data)
     if serializer.is_valid():
@@ -17,18 +17,19 @@ def register(request):
         if models.User.objects.filter(username=username).exists():
             return Response({'error': 'این نام کاربری قبلاً استفاده شده است.'}, status=status.HTTP_400_BAD_REQUEST)
 
+        # ایجاد کاربر
         user = models.User.objects.create_user(
             username=username,
             password=serializer.validated_data.get('password'),
             email=serializer.validated_data.get('email')
         )
-
         user.save()
 
+        # ایجاد پروفایل
         models.ProfileApi.objects.create(
             user=user,
             credit=serializer.validated_data.get('credit'),
-            image=serializer.validated_data.get('image')
+            image=request.FILES.get('image')  # دریافت تصویر از FILES
         )
 
         return Response({'success': 'ثبت‌نام با موفقیت انجام شد.'}, status=status.HTTP_201_CREATED)
@@ -36,7 +37,8 @@ def register(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def profile(request):
     try:
