@@ -75,12 +75,17 @@ def dashboard_Edit(request):
         form = Edit_Dashboard(instance=request.user.profile)
         formUser = ProfileEditForm(instance=request.user)
 
-        context = {
-            'form': form,
-            'profile_image': request.user.profile.image.url,
-            'formUser': formUser,
-        }
-        return render(request, 'profileEdit.html', context)
+    # Check if the image is present before accessing its URL
+    profile_image = None
+    if request.user.profile.image:
+        profile_image = request.user.profile.image.url
+
+    context = {
+        'form': form,
+        'profile_image': profile_image,
+        'formUser': formUser,
+    }
+    return render(request, 'profileEdit.html', context)
 
 
 def contact(request):
@@ -130,7 +135,6 @@ def venuesEdit_View(request, id):
     }
 
     return render(request, 'venuesEdit.html', context)
-
 
 
 def register_view(request):

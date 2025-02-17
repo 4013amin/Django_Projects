@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+
 {% block content %}
 <div class="container mt-5">
     <div class="card shadow-lg border-0 rounded-4" style="max-width: 600px; margin: auto;">
@@ -9,12 +12,11 @@
             <!-- نمایش عکس فعلی پروفایل -->
             <div class="text-center mb-4">
                 {% if profile_image %}
-                <img src="{{ profile_image }}" class="rounded-circle border"
-                     style="width: 120px; height: 120px; object-fit: cover;">
+                <img src="{{ profile_image }}" alt="Profile Image">
                 {% else %}
-                <img src="/media/default.png" class="rounded-circle border"
-                     style="width: 120px; height: 120px; object-fit: cover;">
+                <img src="{% static 'images/photo_2024-06-24_22-39-57.jpg' %}" alt="Default Profile Image">
                 {% endif %}
+
             </div>
 
             <form method="post" enctype="multipart/form-data">

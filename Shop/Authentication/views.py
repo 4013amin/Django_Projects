@@ -29,7 +29,7 @@ def register(request):
         models.ProfileApi.objects.create(
             user=user,
             credit=serializer.validated_data.get('credit'),
-            image=request.FILES.get('image')  # دریافت تصویر از FILES
+            image=request.FILES.get('image')
         )
 
         return Response({'success': 'ثبت‌نام با موفقیت انجام شد.'}, status=status.HTTP_201_CREATED)
