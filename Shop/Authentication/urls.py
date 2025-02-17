@@ -5,5 +5,5 @@ from . import views
 
 urlpatterns = [
                   path('register/', views.register),
-                  path('users/', views.profile),
+                  path('users/', views.Profile.as_view(), name='profile-list'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

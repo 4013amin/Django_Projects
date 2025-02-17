@@ -3,7 +3,7 @@
 {% block content %}
 <h1>تماس با ما</h1>
 <p>برای ارتباط با ما، لطفاً از طریق فرم زیر اقدام کنید:</p>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">ارسال</button>

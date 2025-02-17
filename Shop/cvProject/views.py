@@ -171,7 +171,7 @@ def register_view(request):
 # Form_Contact_Us
 def contact_Us_view(request):
     if request.method == "POST":
-        form = Form_Contact_Us(request.POST)
+        form = Form_Contact_Us(request.POST, request.FILES)
         if form.is_valid():
             form.save()
         return render(request, 'contact_success.html')
