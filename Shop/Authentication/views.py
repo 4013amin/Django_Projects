@@ -3,6 +3,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+
 from . import models
 from .serializers import RegisterSerializer
 
@@ -37,13 +39,19 @@ def register(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class Profile(APIView):
+    permission_classes = [IsAuthenticated]
 
-@api_view(["GET"])
-@permission_classes([IsAuthenticated])
-def profile(request):
-    try:
-        profile = models.ProfileApi.objects.get(user=request.user)
-        serializer = RegisterSerializer(profile)
-        return Response(serializer.data)
-    except models.ProfileApi.DoesNotExist:
-        return Response({'error': 'پروفایل پیدا نشد.'}, status=status.HTTP_404_NOT_FOUND)
+    def get(self, request):
+        username = request.user.username
+
+        if not username:
+            return Response({"error": "کاربر یافت نشد."}, status=status.HTTP_404_NOT_FOUND)
+
+        # دریافت پروفایل کاربر
+        try:
+            profile = models.ProfileApi.objects.get(user__username=username)
+            serializer = RegisterSerializer(profile)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except models.ProfileApi.DoesNotExist:
+            return Response({"error": "پروفایل یافت نشد."}, status=status.HTTP_404_NOT_FOUND)
