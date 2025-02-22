@@ -214,3 +214,18 @@ def reserve_concert(request, id):
 
         messages.success(request, "رزرو با موفقیت انجام شد.")
         return redirect('venue_detail', id=concerts.id)
+
+
+# for admin
+def loginAdmin(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('admin_dashboard')
+        else:
+            return render(request, 'admin/login.html', {'error': 'نام کاربری یا رمز عبور اشتباه است!'})
+
+    return render(request, 'admin/login.html')
