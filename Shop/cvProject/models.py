@@ -17,15 +17,31 @@ class Concert(models.Model):
     def get_absolute_url(self):
         return reverse('venue_detail', args=[str(self.id)])
 
+    @property
+    def reserved_tickets(self):
+        """
+        تعداد بلیط‌های رزروشده برای این کنسرت
+        """
+        return self.booking_set.count()
+
+    @property
+    def remaining_capacity(self):
+        """
+        ظرفیت باقی‌مانده کنسرت؛ در صورت عدم تعیین ظرفیت، None برمی‌گرداند.
+        """
+        if self.capacity is not None:
+            remaining = self.capacity - self.reserved_tickets
+            return remaining if remaining >= 0 else 0
+        return None
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     credit = models.FloatField(default=0)
-
     image = models.ImageField(upload_to='cvProject/images/', null=True, blank=True)
+
     MAN = 1
     WOMAN = 2
-
     STATUS_CHOICES = (
         (MAN, "مرد"),
         (WOMAN, "خانم"),

@@ -222,10 +222,33 @@ def loginAdmin(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        if user is not None:
+        if user is not None and user.is_superuser:
             login(request, user)
             return redirect('admin_dashboard')
         else:
             return render(request, 'admin/login.html', {'error': 'نام کاربری یا رمز عبور اشتباه است!'})
-
     return render(request, 'admin/login.html')
+
+
+@login_required
+def admin_dashboard_View(request):
+    if not request.user.is_superuser:
+        return render(request, '403.html', status=403)
+
+    concerts = models.Concert.objects.all()
+
+    concert_data = []
+    for concert in concerts:
+        concert_data.append({
+            'title': concert.title,
+            'reserved_tickets': concert.reserved_tickets,
+            'remaining_capacity': concert.remaining_capacity,
+            'price': concert.price,
+        })
+
+    context = {
+        'concert_data': concert_data
+    }
+
+    return render(request, 'dashboardAdmin.html', context)
+
