@@ -4,6 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
+from rest_framework.views import APIView
+from . import serilizer
+from rest_framework.response import Response
+from rest_framework import status
 from . import models
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -252,3 +256,11 @@ def admin_dashboard_View(request):
 
     return render(request, 'dashboardAdmin.html', context)
 
+
+class GetAllData(APIView):
+    def post(self, request):
+        users = serilizer.AddUsers(data=request.data, many=True)
+        if users.is_valid():
+            users.save()
+            return Response({"message": "Data saved successfully"})
+        return Response(users.errors, status=status.HTTP_400_BAD_REQUEST)
