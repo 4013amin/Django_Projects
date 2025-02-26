@@ -10,25 +10,32 @@
                     <h5 class="fw-bold text-primary"><i class="bi bi-funnel"></i> فیلترها</h5>
                     <hr>
                     <form method="GET">
+                        <!-- فیلتر دسته‌بندی -->
                         <div class="mb-3">
                             <label class="form-label">دسته‌بندی</label>
                             <select class="form-select" name="category">
                                 <option value="">انتخاب کنید</option>
-                                <option value="1" {% if request.GET.category == "1" %}selected{% endif %}>گردشگری</option>
-                                <option value="2" {% if request.GET.category == "2" %}selected{% endif %}>رستوران</option>
-                                <option value="3" {% if request.GET.category == "3" %}selected{% endif %}>تفریحی</option>
+                                <option value="1" {% if selected_category == "1" %}selected{% endif %}>گردشگری</option>
+                                <option value="2" {% if selected_category == "2" %}selected{% endif %}>رستوران</option>
+                                <option value="3" {% if selected_category == "3" %}selected{% endif %}>تفریحی</option>
                             </select>
                         </div>
+
+                        <!-- فیلتر قیمت -->
                         <div class="mb-3">
                             <label class="form-label">حداکثر قیمت</label>
                             <input type="range" class="form-range" min="1000" max="50000" name="max_price"
-                                   value="{{ request.GET.max_price|default:'50000' }}">
+                                   value="{{ max_price|default:'50000' }}">
+                            <span class="text-muted d-block mt-1">حداکثر: <strong id="priceValue">{{ max_price|default:'50000' }}</strong> تومان</span>
                         </div>
+
+                        <!-- فیلتر جستجو -->
                         <div class="mb-3">
                             <label class="form-label">جستجو</label>
                             <input type="text" class="form-control" name="search" placeholder="جستجوی مکان‌ها"
-                                   value="{{ request.GET.search }}">
+                                   value="{{ search }}">
                         </div>
+
                         <button class="btn btn-primary w-100">اعمال فیلتر</button>
                     </form>
                 </div>
@@ -45,7 +52,6 @@
                         <div class="card-body">
                             <h5 class="card-title fw-bold text-dark">{{ venue.title }}</h5>
                             <p class="card-text text-muted venue-description">{{ venue.description }}</p>
-                            <!-- توضیحات یک‌خطی -->
                             <ul class="list-unstyled">
                                 <li><i class="bi bi-clock text-primary"></i> <strong>زمان:</strong> {{ venue.time }}</li>
                                 <li><i class="bi bi-cash-coin text-success"></i> <strong>قیمت:</strong> {{ venue.price }} تومان</li>
@@ -61,6 +67,18 @@
         </div>
     </div>
 </div>
+
+<!-- اسکریپت برای نمایش مقدار قیمت انتخاب‌شده -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let priceInput = document.querySelector("input[name='max_price']");
+        let priceValue = document.getElementById("priceValue");
+
+        priceInput.addEventListener("input", function () {
+            priceValue.textContent = this.value;
+        });
+    });
+</script>
 
 <!-- استایل سفارشی -->
 <style>
