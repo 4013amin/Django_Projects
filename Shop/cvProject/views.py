@@ -96,25 +96,30 @@ def contact(request):
     return render(request, 'contact.html')
 
 
-@login_required
 def venue_view(request):
     venues = models.Concert.objects.all()
 
-    category = request.GET.get('category', '')
-    max_price = request.GET.get('max_price', '')
+    category = request.GET.get('category', '').strip()
+    max_Price = request.GET.get('max_price', '').strip()
     search = request.GET.get('search', '')
 
     if category:
-        venues = venues.filter(category_id=category)
-    if max_price:
-        venues = venues.filter(price__lte=max_price)
+        venues = venues.filter(category=category)
+
+    if max_Price:
+        try:
+            max_Price = int(max_Price)
+            venues = venues.filter(price__lte=max_Price)  # Corrected to filter by max price
+        except ValueError:
+            return redirect('venue')
+
     if search:
         venues = venues.filter(title__icontains=search)
 
     context = {
         'venues': venues,
-        'selected_category': category,
-        'max_price': max_price if max_price else '50000',
+        'selected_category': category,  # Set to 'category' directly
+        'max_price': str(max_Price) if max_Price else '50000',
         'search': search
     }
 
@@ -243,7 +248,6 @@ def admin_dashboard_View(request):
         return render(request, '403.html', status=403)
 
     concerts = models.Concert.objects.all()
-
     concert_data = []
     for concert in concerts:
         concert_data.append({
@@ -251,6 +255,7 @@ def admin_dashboard_View(request):
             'reserved_tickets': concert.reserved_tickets,
             'remaining_capacity': concert.remaining_capacity,
             'price': concert.price,
+            'category': concert.category
         })
 
     context = {

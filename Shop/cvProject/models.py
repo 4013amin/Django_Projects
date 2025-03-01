@@ -11,6 +11,15 @@ class Concert(models.Model):
     time = models.TimeField()
     capacity = models.PositiveIntegerField(null=True, blank=True)
 
+    # category
+    CATEGORY_CHOICES = [
+        ('rock', 'Rock'),
+        ('pop', 'Pop'),
+        ('jazz', 'Jazz'),
+        ('classical', 'Classical'),
+    ]
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='rock')
+
     def __str__(self):
         return self.title
 
