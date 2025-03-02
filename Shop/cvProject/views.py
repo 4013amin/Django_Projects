@@ -111,7 +111,7 @@ def venue_view(request):
             max_Price = int(max_Price)
             venues = venues.filter(price__lte=max_Price)  # Corrected to filter by max price
         except ValueError:
-            return redirect('venue')
+            return redirect('venues')
 
     if search:
         venues = venues.filter(title__icontains=search)
@@ -209,6 +209,7 @@ def venue_detail(request, id):
 # reserve
 def reserve_concert(request, id):
     concerts = get_object_or_404(models.Concert, id=id)
+    profile = models.Profile.objects.get(user=request.user)
 
     if models.Booking.objects.filter(user=request.user, concert=concerts).exists():
         messages.error(request, "شما قبلاً برای این کنسرت رزرو کرده‌اید.")
@@ -217,15 +218,22 @@ def reserve_concert(request, id):
     if concerts.capacity is not None and concerts.capacity <= 0:
         messages.error(request, "ظرفیت این کنسرت تکمیل شده است.")
         return redirect('venue_detail', id=concerts.id)
-    else:
-        models.Booking.objects.create(user=request.user, concert=concerts)
 
-        if concerts.capacity is not None:
-            concerts.capacity -= 1
-            concerts.save()
-
-        messages.success(request, "رزرو با موفقیت انجام شد.")
+    if profile.credit < concerts.price:
+        messages.error(request, "اعتبار شما کافی نیست.")
         return redirect('venue_detail', id=concerts.id)
+
+    profile.credit -= concerts.price
+    profile.save()
+
+    models.Booking.objects.create(user=request.user, concert=concerts)
+
+    if concerts.capacity is not None:
+        concerts.capacity -= 1
+        concerts.save()
+
+    messages.success(request, "رزرو با موفقیت انجام شد.")
+    return redirect('venue_detail', id=concerts.id)
 
 
 # for admin
@@ -263,12 +271,3 @@ def admin_dashboard_View(request):
     }
 
     return render(request, 'dashboardAdmin.html', context)
-
-
-class GetAllData(APIView):
-    def post(self, request):
-        users = serilizer.AddUsers(data=request.data, many=True)
-        if users.is_valid():
-            users.save()
-            return Response({"message": "Data saved successfully"})
-        return Response(users.errors, status=status.HTTP_400_BAD_REQUEST)

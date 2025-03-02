@@ -46,7 +46,7 @@ class Concert(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    credit = models.FloatField(default=0)
+    credit = models.FloatField(default=10000)
     image = models.ImageField(upload_to='cvProject/images/', null=True, blank=True)
 
     MAN = 1
