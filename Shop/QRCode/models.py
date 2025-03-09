@@ -1,6 +1,7 @@
 from django.db import models
 from decimal import Decimal
 
+
 class Menu(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -9,11 +10,9 @@ class Menu(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        # ذخیره منو
         super().save(*args, **kwargs)
 
-        # ایجاد آیتم‌های فیک اگر منو جدید ایجاد شده باشد
-        if not self.items.exists():  # اگر آیتم‌هایی وجود ندارند
+        if not self.items.exists():
             food_items = [
                 {"name": "قهوه اسپرسو", "description": "قهوه اسپرسو خالص", "price": Decimal('15.00')},
                 {"name": "کاپوچینو", "description": "کاپوچینو با شیر داغ", "price": Decimal('20.00')},
