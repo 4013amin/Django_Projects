@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 
+from asgiref.typing import ASGIApplication
 from django.conf.global_settings import LOGIN_URL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,7 +46,8 @@ INSTALLED_APPS = [
     'NewProjectForme',
     'QRCode',
     'cvProject',
-    'Authentication'
+    'Authentication',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +79,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Shop.wsgi.application'
+ASGIApplication = 'Shop.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -126,7 +129,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 PLACEHOLDER_IMAGE_URL = "https://via.placeholder.com/300x200?text=No+Image"
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
