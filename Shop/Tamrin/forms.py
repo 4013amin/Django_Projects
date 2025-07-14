@@ -1,12 +1,8 @@
 from django import forms
-from .models import ProfileUser
+from . import models
 
 
-class RegisterProfileForm(forms.ModelForm):
-    username = forms.CharField(max_length=30)
-    password = forms.CharField(widget=forms.PasswordInput)
-    image = forms.ImageField(required=False)
-
+class Tasks_form(forms.ModelForm):
     class Meta:
-        model = ProfileUser
-        fields = ['username', 'password', 'phone', 'image']
+        model = models.Tasks
+        fields = ['title', 'description']

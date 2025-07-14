@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My TODO</title>
+</head>
+<body>
+<h1>My TODO List</h1>
+
+{% if messages %}
+{% for message in messages %}
+<p style="color:green;">{{ message }}</p>
+{% endfor %}
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add</button>
+</form>
+
+<ul>
+    {% for task in tasks %}
+    <li>{{ task.title }} {% if task.completed %}✔️{% endif %}</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'list_task' %}">Task_Lists</a>
+</body>
+</html>
