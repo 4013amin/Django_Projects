@@ -6,6 +6,11 @@ from . import models
 
 # Create your views here.
 
+def profile(request):
+
+
+
+
 def index(request):
     if request.method == "POST":
         form = forms.Tasks_form(request.POST)
@@ -22,3 +27,5 @@ def index(request):
 def list_tasks(request):
     task = models.Tasks.objects.all()
     return render(request, 'list.html', {'tasks': task})
+
+
