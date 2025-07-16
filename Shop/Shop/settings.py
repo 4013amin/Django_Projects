@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'cvProject',
     'Authentication',
     'channels',
+    'API'
 ]
 
 MIDDLEWARE = [
