@@ -6,3 +6,8 @@ from . import models
 @admin.register(models.Tasks)
 class TasksAdmin(admin.ModelAdmin):
     list_display = ('title', 'description')
+
+
+@admin.register(models.Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'phone')

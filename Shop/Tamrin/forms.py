@@ -8,6 +8,7 @@ class Profile_form(forms.ModelForm):
         fields = ['user', 'phone']
 
 
+
 class Tasks_form(forms.ModelForm):
     class Meta:
         model = models.Tasks
