@@ -41,7 +41,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('API.url')),
+    path('', include('app.urls')),
 
     # مسیرهای مستندات Swagger و Redoc
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
